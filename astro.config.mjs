@@ -10,6 +10,7 @@ export default defineConfig({
       title: 'Locode',
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/chocks/locode' },
+        { icon: 'open-book', label: 'npm', href: 'https://www.npmjs.com/package/@chocks-dev/locode' },
       ],
       sidebar: [
         {

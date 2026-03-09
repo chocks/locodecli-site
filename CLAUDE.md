@@ -23,6 +23,7 @@ src/
 astro.config.mjs       # Starlight config, sidebar, social links
 .github/workflows/
   sync-docs.yml        # Syncs docs from the main locode repo via repository_dispatch
+  ci.yml               # Runs astro check + build on PRs
 ```
 
 ## Commands
@@ -30,6 +31,7 @@ astro.config.mjs       # Starlight config, sidebar, social links
 - `npm run dev` — local dev server
 - `npm run build` — production build (outputs to `dist/`)
 - `npm run preview` — preview production build locally
+- `npx astro check` — validate Astro/MDX files for type errors and bad imports
 
 ## Key Conventions
 
@@ -39,6 +41,10 @@ astro.config.mjs       # Starlight config, sidebar, social links
 - The site includes an alpha software warning matching the locode README
 - npm version badge from shields.io on the landing page
 - Theme colors: teal accent (`#14b8a6` dark / `#0d9488` light)
+
+## CI
+
+The `ci.yml` workflow runs on all PRs to main. It runs `astro check` (validates MDX/Astro files) and `npm run build` (full production build). Both must pass before merge.
 
 ## Docs Sync
 
