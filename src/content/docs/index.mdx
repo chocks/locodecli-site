@@ -16,20 +16,10 @@ hero:
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import HowItWorks from '../../components/HowItWorks.astro';
+import CostComparison from '../../components/CostComparison.astro';
 
-## How It Works
-
-<CardGrid>
-  <Card title="1. You type" icon="pencil">
-    Write your prompt — a question, a task, a code request.
-  </Card>
-  <Card title="2. Locode routes" icon="random">
-    Smart classification using regex rules and LLM-assisted routing decides which model handles it.
-  </Card>
-  <Card title="3. Right model responds" icon="rocket">
-    Simple tasks go to Ollama (free, local). Complex tasks go to Claude (powerful, cloud).
-  </Card>
-</CardGrid>
+<HowItWorks />
 
 ## Features
 
@@ -47,6 +37,8 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
     Extend with Model Context Protocol servers — including remote ones like Linear.
   </Card>
 </CardGrid>
+
+<CostComparison />
 
 ## Quick Start
 
