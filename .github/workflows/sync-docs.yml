@@ -17,7 +17,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet || echo "changed=true" >> $GITHUB_OUTPUT
+          git status --porcelain | grep -q . && echo "changed=true" >> $GITHUB_OUTPUT || true
 
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
