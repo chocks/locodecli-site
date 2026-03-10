@@ -9,12 +9,11 @@ set -euo pipefail
 
 LOCODE_REPO="chocks/locode"
 BRANCH="main"
-WORK=$(mktemp -d)
-trap "rm -rf $WORK" EXIT
+LOCODE_YAML="locode.yaml"
 
 # Download locode.yaml
 curl -sL "https://raw.githubusercontent.com/${LOCODE_REPO}/${BRANCH}/locode.yaml" \
-  -o "$WORK/locode.yaml"
+  -o "$LOCODE_YAML"
 
 echo "Downloaded locode.yaml from ${LOCODE_REPO}@${BRANCH}"
 
@@ -24,15 +23,15 @@ echo "Downloaded locode.yaml from ${LOCODE_REPO}@${BRANCH}"
 # For the routing block we use python3+PyYAML to guarantee YAML output
 # regardless of which yq flavour is installed.
 
-DEFAULT_MODEL=$(yq -r '.local_llm.model' "$WORK/locode.yaml")
-ESCALATION_THRESHOLD=$(yq -r '.routing.escalation_threshold' "$WORK/locode.yaml")
+DEFAULT_MODEL=$(yq -r '.local_llm.model' "$LOCODE_YAML")
+ESCALATION_THRESHOLD=$(yq -r '.routing.escalation_threshold' "$LOCODE_YAML")
 ROUTING_BLOCK=$(python3 -c "
-import yaml, sys
-with open('$WORK/locode.yaml') as f:
+import yaml
+with open('$LOCODE_YAML') as f:
     data = yaml.safe_load(f)
 print(yaml.dump({'routing': data['routing']}, default_flow_style=False).rstrip())
 ")
-FULL_YAML=$(cat "$WORK/locode.yaml")
+FULL_YAML=$(cat "$LOCODE_YAML")
 
 # ── Replace content between sync markers ─────────────────────────────────────
 # Usage: sync_section <file> <name> <new_content>

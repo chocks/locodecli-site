@@ -1,5 +1,8 @@
 # build output
 dist/
+
+# downloaded by scripts/sync-docs.sh when run locally
+locode.yaml
 # generated types
 .astro/
 
