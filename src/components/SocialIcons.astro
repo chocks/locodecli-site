@@ -1,0 +1,74 @@
+---
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+---
+
+<div class="social-icons-wrapper">
+  <a
+    href="https://www.producthunt.com/products/locode?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-locode"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="product-hunt-badge"
+    aria-label="Locode on Product Hunt"
+  >
+    <img
+      class="ph-light"
+      alt="Locode - Routes simple tasks to a local LLM, complex tasks to Claude | Product Hunt"
+      width="250"
+      height="54"
+      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1093646&theme=light&t=1773190600841"
+    />
+    <img
+      class="ph-dark"
+      alt="Locode - Routes simple tasks to a local LLM, complex tasks to Claude | Product Hunt"
+      width="250"
+      height="54"
+      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1093646&theme=dark&t=1773190600841"
+    />
+  </a>
+  <span class="social-icons-default">
+    <Default {...Astro.props}>
+      <slot />
+    </Default>
+  </span>
+</div>
+
+<style>
+  .social-icons-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+    margin-right: 0.5rem;
+  }
+  .product-hunt-badge {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .social-icons-default {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .social-icons-default :global(a) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-hunt-badge img {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+  .product-hunt-badge .ph-dark {
+    display: none;
+  }
+  :global([data-theme='dark']) .product-hunt-badge .ph-light {
+    display: none;
+  }
+  :global([data-theme='dark']) .product-hunt-badge .ph-dark {
+    display: block;
+  }
+</style>

@@ -8,9 +8,19 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Locode',
+      logo: {
+        light: './public/logo.svg',
+        dark: './public/logo-dark.svg',
+        alt: 'Locode',
+        replacesText: true,
+      },
+      favicon: '/favicon.svg',
+      components: {
+        SocialIcons: './src/components/SocialIcons.astro',
+      },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/chocks/locode' },
-        { icon: 'open-book', label: 'npm', href: 'https://www.npmjs.com/package/@chocks-dev/locode' },
+        { icon: 'npm', label: 'npm', href: 'https://www.npmjs.com/package/@chocks-dev/locode' },
       ],
       sidebar: [
         {
