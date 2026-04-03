@@ -8,7 +8,7 @@ Locode uses Ollama to run a local LLM for simple coding tasks. The model you cho
 ## Default model
 
 <!-- sync:start name="default-model" -->
-The default model is **`qwen3:8b`** — a good balance of coding ability and resource usage.
+The default model is **`llama3.1:8b`** — a good balance of coding ability and resource usage.
 <!-- sync:end -->
 
 ## Changing the model
@@ -18,7 +18,7 @@ Set the model in `locode.yaml`:
 <!-- sync:start name="model-yaml-example" -->
 ```yaml
 local_llm:
-  model: qwen3:8b
+  model: llama3.1:8b
 ```
 <!-- sync:end -->
 

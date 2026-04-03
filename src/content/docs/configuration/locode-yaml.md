@@ -10,7 +10,7 @@ Locode reads its configuration from a `locode.yaml` file. This file controls whi
 <!-- sync:start name="key-settings" -->
 | Key | Description | Default |
 |-----|-------------|---------|
-| `local_llm.model` | Ollama model to use for local tasks | `qwen3:8b` |
+| `local_llm.model` | Ollama model to use for local tasks | `llama3.1:8b` |
 | `routing.rules` | Regex patterns that route tasks to local or Claude | — |
 | `routing.escalation_threshold` | Confidence below this value escalates to Claude | `0.7` |
 <!-- sync:end -->
@@ -21,14 +21,24 @@ Locode reads its configuration from a `locode.yaml` file. This file controls whi
 ```yaml
 local_llm:
   provider: ollama
-  model: qwen3:8b
+  # Recommended models (install via `ollama pull <model>`):
+  #   llama3.1:8b        — safest current baseline for tool calling (default)
+  #   gemma4:e4b         — recommended Gemma 4 candidate to evaluate, ~4 GB RAM
+  #   gemma4:27b         — best local quality, ~18 GB RAM
+  #   gemma4:2b          — lightweight option for simpler tasks
+  model: llama3.1:8b
   base_url: http://localhost:11434
+  # Set thinking: true for hybrid-thinking variants (e.g. gemma4:27b).
+  # This enables extended reasoning tokens; output <think> blocks are
+  # automatically stripped from responses shown to the user.
+  # thinking: true
   # Ollama per-request options (passed directly to the Ollama API).
-  # num_ctx:    context window size in tokens (lower = faster, uses less RAM)
+  # num_ctx:    context window size in tokens — Gemma 4 supports up to 128k;
+  #             8192 is a practical default balancing quality and RAM usage.
   # num_thread: number of CPU threads for inference (match your core count)
   # See https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters
   options:
-    num_ctx: 2048
+    num_ctx: 8192
     num_thread: 4
 
 claude:
@@ -52,11 +62,28 @@ context:
   handoff: summary
   max_summary_tokens: 500
   max_file_bytes: 51200
-  repo_context_files: ["CLAUDE.md"]
+  repo_context_files: ["AGENTS.md", "CLAUDE.md"]
 
 token_tracking:
   enabled: true
   log_file: ~/.locode/usage.log
+
+agent:
+  max_iterations: 5
+  auto_confirm: false
+  show_plan: true
+  run_validation: true
+  # validation_command: "npm test"
+
+performance:
+  parallel_reads: 4
+  warm_index_on_startup: true
+  cache_context: true
+  cache_dir: .locode/context-cache
+  cache_max_entries: 200
+  cache_max_bytes: 5242880
+  max_prompt_chars: 24000
+  lazy_semantic_search: true
 
 # mcp_servers:
 #   linear:
