@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -21,11 +22,19 @@ jobs:
         run: |
           git status --porcelain | grep -q . && echo "changed=true" >> $GITHUB_OUTPUT || true
 
-      - name: Commit and push
+      - name: Create PR with synced docs
         if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          BRANCH="auto/sync-docs-$(date +%Y%m%d%H%M%S)"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
           git add -A
           git commit -m "docs: sync from locode repo"
-          git push
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "docs: sync from locode repo" \
+            --body "Automated sync of docs from locode.yaml in chocks/locode." \
+            --base main
