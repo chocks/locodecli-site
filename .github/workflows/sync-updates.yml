@@ -1,0 +1,42 @@
+name: Sync updates from locode releases
+
+on:
+  repository_dispatch:
+    types: [release-published]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync latest releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/sync-updates.sh
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet src/data/updates.json && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Create PR with updated releases
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="auto/sync-updates-$(date +%Y%m%d%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/data/updates.json
+          git commit -m "docs: update What's New with latest releases"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "docs: update What's New with latest releases" \
+            --body "Automated update of the What's New section from the latest chocks/locode releases." \
+            --base main
