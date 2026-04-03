@@ -1,0 +1,18 @@
+---
+import updates from '../data/updates.json';
+
+const recent = updates.slice(0, 3);
+---
+
+<section class="not-content py-16 px-4">
+  <h2 class="text-2xl font-bold text-center mb-12">What's New</h2>
+  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+    {recent.map((item) => (
+      <a href={item.link} class="block rounded-lg border border-teal-500/20 bg-teal-500/5 p-5 hover:bg-teal-500/10 transition-colors no-underline">
+        <time class="text-xs text-teal-400/80">{new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+        <h3 class="text-base font-semibold mt-1 mb-2">{item.title}</h3>
+        <p class="text-sm opacity-75 m-0">{item.description}</p>
+      </a>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2026-04-03",
+    "description": "Recommend local model from eval results",
+    "link": "https://github.com/chocks/locode/releases/tag/v0.1.17",
+    "title": "v0.1.17"
+  },
+  {
+    "date": "2026-04-03",
+    "description": "Add local model evaluation harness",
+    "link": "https://github.com/chocks/locode/releases/tag/v0.1.16",
+    "title": "v0.1.16"
+  },
+  {
+    "date": "2026-04-03",
+    "description": "Finish v0.3.5 hardening",
+    "link": "https://github.com/chocks/locode/releases/tag/v0.1.15",
+    "title": "v0.1.15"
+  }
+]
